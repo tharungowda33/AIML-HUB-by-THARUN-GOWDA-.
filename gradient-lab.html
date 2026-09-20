@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gradient Lab: free study hub for AI and ML students</title>
+<meta name="description" content="Free videos, courses and practice sites for Python, C++, Java, SQL and more, collected in one place for AI and ML students.">
+<meta name="author" content="Your Name">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F7F4; --panel:#FFFFFF; --ink:#12302F; --muted:#4F6B68; --line:#C6DAD3; --grid:rgba(18,48,47,.06);
+  --violet:#4B3BFF; --violet-ink:#FFFFFF; --mark:#FFE066; --on-mark:#12302F; --coral:#FF5A4E;
+  --c-course:#0B7A64; --c-prac:#B3382C;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1C1E; --panel:#152628; --ink:#E4F0EC; --muted:#93AAA6; --line:#26403F; --grid:rgba(228,240,236,.05);
+    --violet:#9C90FF; --violet-ink:#0E1C1E; --mark:#FFD84D; --coral:#FF7B70;
+    --c-course:#5FD3B7; --c-prac:#FF8A80;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1C1E; --panel:#152628; --ink:#E4F0EC; --muted:#93AAA6; --line:#26403F; --grid:rgba(228,240,236,.05);
+  --violet:#9C90FF; --violet-ink:#0E1C1E; --mark:#FFD84D; --coral:#FF7B70;
+  --c-course:#5FD3B7; --c-prac:#FF8A80;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 12px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  color:var(--ink);font:400 1.0625rem/1.6 var(--body);
+}
+a{color:var(--violet)}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px}
+.skip:focus{left:12px;z-index:10;background:var(--mark);color:var(--on-mark);padding:10px 14px;border-radius:8px}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* header */
+.site{padding:16px 0 4px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font:800 1.4rem/1 var(--display);letter-spacing:-.02em}
+.brand svg{width:30px;height:30px;color:var(--ink)}
+.site nav{display:flex;flex-wrap:wrap;gap:4px 20px;margin-top:6px}
+.site nav a{color:var(--ink);font-weight:600;text-decoration:none;padding:8px 0;min-height:40px}
+.site nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* buttons */
+.btn,.pill,.tab,.chip{font-family:var(--body);cursor:pointer}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:12px;font-weight:600;font-size:1rem;text-decoration:none;border:2px solid var(--ink);color:var(--ink);background:transparent}
+.btn-primary{background:var(--violet);border-color:var(--violet);color:var(--violet-ink)}
+.pill{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:999px;border:2px solid var(--ink);background:var(--panel);color:var(--ink);font-weight:600;font-size:.93rem;text-decoration:none}
+.pill:hover{background:var(--mark);color:var(--on-mark)}
+
+/* hero */
+.hero{padding:30px 0 52px}
+.hero-grid{display:grid;gap:30px}
+@media (min-width:860px){.hero{padding:60px 0 80px}.hero-grid{grid-template-columns:1.05fr .95fr;align-items:center;gap:48px}}
+h1{margin:0 0 18px;font:800 clamp(2.5rem,8vw,4.2rem)/1.02 var(--display);letter-spacing:-.03em;text-wrap:balance}
+.lead{margin:0 0 26px;max-width:52ch;color:var(--muted);font-size:1.15rem}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.plot{background:var(--panel);border:2px solid var(--ink);border-radius:18px;padding:12px 12px 14px}
+.plot canvas{display:block;width:100%;height:240px}
+.plot p{margin:8px 6px 0;font-size:.92rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.readout{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+
+/* sections */
+.block{padding:52px 0;border-top:1px solid var(--line)}
+h2{margin:0 0 10px;font:800 clamp(1.75rem,5vw,2.5rem)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.block .lead{font-size:1.05rem;margin-bottom:22px}
+.lbl{display:block;font-weight:600;margin:0 0 6px}
+.search{width:100%;max-width:560px;min-height:52px;padding:0 16px;font:500 1.05rem var(--body);color:var(--ink);background:var(--panel);border:2px solid var(--ink);border-radius:12px}
+.search::placeholder{color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:20px 0 4px;scrollbar-width:thin}
+.tab{flex:0 0 auto;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:var(--panel);color:var(--ink);font-weight:600;font-size:.97rem}
+.tab[aria-pressed="true"]{background:var(--mark);color:var(--on-mark)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.chip{min-height:38px;padding:0 14px;border-radius:10px;border:2px solid var(--line);background:transparent;color:var(--ink);font-weight:600;font-size:.9rem}
+.chip[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:var(--violet-ink)}
+.intro{margin:18px 0 4px;max-width:64ch;font-size:1.05rem}
+.count{margin:0 0 10px;color:var(--muted);font-size:.93rem}
+
+/* resource rows */
+.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.row{position:relative;display:grid;grid-template-columns:1fr auto;gap:8px 16px;padding:16px 6px;border-bottom:1px solid var(--line)}
+.row:hover{background:var(--panel)}
+.row:focus-within{outline:3px solid var(--violet);outline-offset:-3px}
+.title{margin:0;font:700 1.15rem/1.3 var(--display);letter-spacing:-.005em}
+.title a{color:var(--ink);text-decoration:none}
+.title a::after{content:"";position:absolute;inset:0}
+.title a:focus-visible{outline:none}
+.by{margin:2px 0 0;font-size:.92rem;font-weight:600;color:var(--muted)}
+.note{margin:4px 0 0;max-width:64ch;color:var(--muted);font-size:.98rem}
+.rtags{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;border:1.5px solid currentColor;font:600 .8rem/1.6 var(--body);white-space:nowrap}
+.t-video{color:var(--violet)}
+.t-course{color:var(--c-course)}
+.t-docs{color:var(--muted)}
+.t-practice{color:var(--c-prac)}
+.t-lang{color:var(--ink)}
+.empty{margin:18px 0 0;color:var(--muted)}
+.list.two{display:block}
+@media (min-width:760px){.list.two{display:grid;grid-template-columns:1fr 1fr;column-gap:36px}}
+
+/* roadmap */
+.progress{height:14px;background:var(--panel);border:2px solid var(--ink);border-radius:999px;overflow:hidden;max-width:520px}
+.fill{height:100%;width:0;background:var(--violet);transition:width .25s}
+.prog-text{margin:8px 0 0;font-weight:600}
+.steps{list-style:none;counter-reset:s;margin:30px 0 0;padding:0}
+.step{position:relative;counter-increment:s;padding:0 0 30px 62px}
+.step::before{content:counter(s);position:absolute;left:0;top:0;width:42px;height:42px;border-radius:50%;background:var(--panel);border:2px solid var(--ink);display:grid;place-items:center;font:800 1.1rem var(--display)}
+.step::after{content:"";position:absolute;left:20px;top:46px;bottom:4px;width:2px;background:var(--line)}
+.step:last-child{padding-bottom:0}
+.step:last-child::after{display:none}
+.step.done::before{background:var(--mark);color:var(--on-mark)}
+.step h3{margin:6px 0 4px;font:700 1.3rem/1.25 var(--display)}
+.step p{margin:0;max-width:60ch;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:8px 10px;margin:12px 0 4px}
+.check{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:600;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--violet)}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:36px 0 56px}
+footer p{margin:0 0 8px}
+footer .small{color:var(--muted);font-size:.93rem;max-width:64ch}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#languages">Skip to resources</a>
+
+<header class="wrap site">
+  <div class="topbar">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 6 C 10 6, 12 26, 18 26 S 26 14, 29 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="18" cy="26" r="3.6" fill="var(--coral)"/></svg>
+      Gradient Lab
+    </a>
+    <button id="theme" class="pill" type="button">Dark mode</button>
+  </div>
+  <nav aria-label="Sections">
+    <a href="#languages">Languages</a>
+    <a href="#path">Roadmap</a>
+    <a href="#practice">Practice</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Learn to code. Train your first model. All of it free.</h1>
+        <p class="lead">Videos, courses and practice sites for Python, C++, Java, SQL and more, gathered in one place for AI and ML students.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="#languages">Start with Python</a>
+          <a class="btn" href="#path">See the roadmap</a>
+        </div>
+      </div>
+      <div class="plot">
+        <canvas id="descent" role="img" aria-label="A ball rolls down a loss curve in small steps until it reaches the lowest point, showing how a model learns."></canvas>
+        <p><span>Each dot is one step downhill. This is how a model learns.</span><span class="readout" id="readout" aria-hidden="true">Step 0</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="languages">
+    <div class="wrap">
+      <h2>Free lessons for every language</h2>
+      <p class="lead">Search everything, or pick a language. Every link opens on the creator's own site and is free to learn from.</p>
+
+      <label class="lbl" for="q">Search all resources</label>
+      <input class="search" id="q" type="search" autocomplete="off" placeholder="Try “python”, “sql” or “neural networks”">
+
+      <div class="tabs" id="tabs" aria-label="Languages and topics"></div>
+      <div class="filters" id="filters" role="group" aria-label="Resource type"></div>
+
+      <p class="intro" id="intro"></p>
+      <p class="count" id="count" aria-live="polite"></p>
+      <ul class="list" id="list"></ul>
+      <p class="empty" id="empty" hidden>Nothing matches that search. Try a shorter word such as “python”, or clear the search box.</p>
+      <noscript><p>This page needs JavaScript to show the resource list.</p></noscript>
+    </div>
+  </section>
+
+  <section class="block" id="path">
+    <div class="wrap">
+      <h2>A six-step path into AI and ML</h2>
+      <p class="lead">Follow the steps in order. Tick each one when you finish it. Your progress is saved in this browser only.</p>
+      <div class="progress" aria-hidden="true"><div class="fill" id="fill"></div></div>
+      <p class="prog-text" id="prog" aria-live="polite">0 of 6 steps done</p>
+      <ol class="steps" id="steps"></ol>
+    </div>
+  </section>
+
+  <section class="block" id="practice">
+    <div class="wrap">
+      <h2>Practice and build projects</h2>
+      <p class="lead">Watching is not enough. Use these to write code every day and to get your work seen.</p>
+      <ul class="list two" id="practiceList"></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Gradient Lab is built and curated by <strong data-owner>Your Name</strong>.</p>
+    <p class="small">All videos, courses and tools belong to their creators. Links open on their own sites, and free limits can change over time.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  /* ---- Change this one line to put your name on the site ---- */
+  var OWNER = "Your Name";
+
+  document.querySelectorAll("[data-owner]").forEach(function(e){ e.textContent = OWNER; });
+  var metaAuthor = document.querySelector('meta[name="author"]');
+  if (metaAuthor) metaAuthor.setAttribute("content", OWNER);
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var YT = function(q){ return "https://www.youtube.com/results?search_query=" + encodeURIComponent(q); };
+  var r = function(type, title, by, note, url){ return {type:type, title:title, by:by, note:note, url:url}; };
+
+  /* ---- Resource data ---- */
+  var LANGS = [
+    {id:"python", name:"Python", intro:"The main language of AI and ML, and a friendly first language. Start here if you are new.", items:[
+      r("video","Python tutorials for beginners","Corey Schafer","Calm, clear lessons from the basics to intermediate topics.","https://www.youtube.com/@coreyms"),
+      r("video","Python full course for beginners","freeCodeCamp","A long, free course you can follow from start to finish.",YT("freeCodeCamp python full course for beginners")),
+      r("video","Python tutorial for beginners","Programming with Mosh","A well-paced introduction in a single video.",YT("Programming with Mosh python tutorial for beginners")),
+      r("course","CS50's Introduction to Programming with Python","Harvard","Free lectures, notes and problem sets.","https://cs50.harvard.edu/python/"),
+      r("course","Automate the Boring Stuff with Python","Al Sweigart","A free online book that teaches Python through small, useful programs.","https://automatetheboringstuff.com/"),
+      r("docs","The Python Tutorial","python.org","The official tutorial. Best once you know the basics.","https://docs.python.org/3/tutorial/"),
+      r("practice","Kaggle Learn: Python","Kaggle","Short interactive lessons with exercises in your browser.","https://www.kaggle.com/learn/python"),
+      r("practice","Exercism Python track","Exercism","Free practice exercises with automatic tests.","https://exercism.org/tracks/python")
+    ]},
+    {id:"ai", name:"AI & ML", intro:"Courses, videos and books that take you from your first model to deep learning.", items:[
+      r("video","Neural networks","3Blue1Brown","Visual explanations of how neural networks learn.","https://www.youtube.com/@3blue1brown"),
+      r("video","StatQuest","Josh Starmer","Statistics and machine learning explained step by step.","https://www.youtube.com/@statquest"),
+      r("video","Neural Networks: Zero to Hero","Andrej Karpathy","Build neural networks and a small language model from scratch.","https://karpathy.ai/zero-to-hero.html"),
+      r("video","Machine learning and data science tutorials","Krish Naik","Beginner-friendly playlists on ML and deep learning.","https://www.youtube.com/@krishnaik06"),
+      r("course","Machine Learning Specialization","Andrew Ng","A classic first ML course. Free to audit on Coursera.","https://www.deeplearning.ai/courses/machine-learning-specialization/"),
+      r("course","Machine Learning Crash Course","Google","Short lessons with exercises.","https://developers.google.com/machine-learning/crash-course"),
+      r("course","Practical Deep Learning for Coders","fast.ai","A free, code-first deep learning course.","https://course.fast.ai/"),
+      r("course","Hugging Face Learn","Hugging Face","Free courses on language models and transformers.","https://huggingface.co/learn"),
+      r("course","Linear algebra","Khan Academy","Free lessons on vectors and matrices.","https://www.khanacademy.org/math/linear-algebra"),
+      r("docs","Mathematics for Machine Learning","Deisenroth, Faisal and Ong","A free book covering the maths behind ML.","https://mml-book.github.io/"),
+      r("docs","Dive into Deep Learning","d2l.ai","A free interactive book with runnable code.","https://d2l.ai/"),
+      r("docs","scikit-learn user guide","scikit-learn","The reference for classical machine learning in Python.","https://scikit-learn.org/stable/user_guide.html"),
+      r("docs","PyTorch tutorials","PyTorch","Official tutorials for building neural networks.","https://pytorch.org/tutorials/"),
+      r("practice","Kaggle Learn: Intro to Machine Learning","Kaggle","Short lessons with exercises.","https://www.kaggle.com/learn/intro-to-machine-learning"),
+      r("practice","Google Colab","Google","Run Python notebooks in your browser with no setup.","https://colab.research.google.com/")
+    ]},
+    {id:"cpp", name:"C++", intro:"Fast and close to the hardware. Common in games, systems work and performance-critical ML code.", items:[
+      r("video","C++ series","The Cherno","Practical lessons on how C++ really works.","https://www.youtube.com/@TheCherno"),
+      r("video","C++ full course for beginners","freeCodeCamp","A long, free course for first-timers.",YT("freeCodeCamp C++ full course for beginners")),
+      r("video","C++ programming full course","Bro Code","A fast-moving beginner course.",YT("Bro Code C++ full course")),
+      r("docs","Learn C++","learncpp.com","A free, thorough tutorial site.","https://www.learncpp.com/"),
+      r("docs","C++ reference","cppreference.com","Look up any function, class or keyword.","https://en.cppreference.com/"),
+      r("practice","Exercism C++ track","Exercism","Free practice exercises with automatic tests.","https://exercism.org/tracks/cpp"),
+      r("practice","Compiler Explorer","godbolt.org","Type C++ and see the machine code it produces.","https://godbolt.org/")
+    ]},
+    {id:"java", name:"Java", intro:"Widely used in industry and university courses. Good for learning object-oriented programming.", items:[
+      r("video","Java tutorials","Telusko","Beginner-friendly Java lessons.","https://www.youtube.com/@Telusko"),
+      r("video","Java and data structures","Kunal Kushwaha","Long-form free courses on Java with algorithms.","https://www.youtube.com/@KunalKushwaha"),
+      r("video","Java full course","freeCodeCamp","A long, free course for beginners.",YT("freeCodeCamp Java full course")),
+      r("course","Java Programming MOOC","University of Helsinki","A free online course with exercises.","https://java-programming.mooc.fi/"),
+      r("docs","Learn Java","dev.java","Official tutorials from Oracle.","https://dev.java/learn/"),
+      r("practice","Exercism Java track","Exercism","Free practice exercises with automatic tests.","https://exercism.org/tracks/java")
+    ]},
+    {id:"c", name:"C", intro:"Small and low-level. Learning C teaches you how memory and computers work.", items:[
+      r("video","CS50 lectures","Harvard","Full lectures that start with C.","https://www.youtube.com/@cs50"),
+      r("video","C programming full course","freeCodeCamp","A long, free course for beginners.",YT("freeCodeCamp C programming full course")),
+      r("video","C programming series","Neso Academy","Lecture-style lessons aimed at college students.","https://www.youtube.com/@nesoacademy"),
+      r("docs","Beej's Guide to C","Brian Hall","A free, friendly guide to the language.","https://beej.us/guide/bgc/"),
+      r("practice","Learn-C.org","Learn-C.org","Interactive C lessons in your browser.","https://www.learn-c.org/")
+    ]},
+    {id:"sql", name:"SQL", intro:"The language of databases. Every data project uses it sooner or later.", items:[
+      r("video","SQL tutorial series","Alex The Analyst","SQL for beginners, using real data.","https://www.youtube.com/@AlexTheAnalyst"),
+      r("video","SQL full database course","freeCodeCamp","A long, free course for beginners.",YT("freeCodeCamp SQL full database course")),
+      r("course","Intro to SQL","Kaggle Learn","Short lessons with exercises.","https://www.kaggle.com/learn/intro-to-sql"),
+      r("course","SQLBolt","SQLBolt","Interactive lessons that each take a few minutes.","https://sqlbolt.com/"),
+      r("practice","SQLZoo","SQLZoo","Practice writing queries in your browser.","https://sqlzoo.net/"),
+      r("practice","HackerRank SQL","HackerRank","Challenges from easy to hard.","https://www.hackerrank.com/domains/sql")
+    ]},
+    {id:"js", name:"JavaScript", intro:"The language of the web, and the way to make your own site interactive.", items:[
+      r("video","JavaScript tutorials and crash courses","Traversy Media","Crash courses and full project builds.","https://www.youtube.com/@TraversyMedia"),
+      r("video","Quick JavaScript explainers","Fireship","Fast overviews once you know the basics.","https://www.youtube.com/@Fireship"),
+      r("video","JavaScript full course","freeCodeCamp","A long, free course for beginners.",YT("freeCodeCamp JavaScript full course")),
+      r("docs","The Modern JavaScript Tutorial","javascript.info","Clear, free and thorough.","https://javascript.info/"),
+      r("docs","JavaScript Guide","MDN","The trusted reference from Mozilla.","https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide"),
+      r("course","freeCodeCamp curriculum","freeCodeCamp","Free lessons and projects, with certificates.","https://www.freecodecamp.org/learn/"),
+      r("practice","Codewars","Codewars","Small coding challenges called kata.","https://www.codewars.com/")
+    ]},
+    {id:"web", name:"HTML & CSS", intro:"HTML and CSS shape every web page. Start here to build sites like this one and to become a web designer.", items:[
+      r("video","CSS tutorials","Kevin Powell","Clear lessons on layout, Flexbox and Grid.","https://www.youtube.com/@KevinPowell"),
+      r("video","HTML and CSS crash courses","Traversy Media","Short courses ending in a finished page.","https://www.youtube.com/@TraversyMedia"),
+      r("video","Figma tutorial for beginners","YouTube search","Learn to design screens before you code them.",YT("Figma tutorial for beginners")),
+      r("docs","Learn web development","MDN","Structured lessons from Mozilla.","https://developer.mozilla.org/en-US/docs/Learn_web_development"),
+      r("docs","Learn HTML and Learn CSS","web.dev","Free courses from the Chrome team.","https://web.dev/learn"),
+      r("practice","Flexbox Froggy","Codepip","A game that teaches CSS Flexbox.","https://flexboxfroggy.com/"),
+      r("practice","CSS Grid Garden","Codepip","A game that teaches CSS Grid.","https://cssgridgarden.com/")
+    ]},
+    {id:"r", name:"R", intro:"Popular for statistics and data analysis.", items:[
+      r("docs","R for Data Science","Wickham, Çetinkaya-Rundel and Grolemund","A free book on importing, tidying and plotting data.","https://r4ds.hadley.nz/"),
+      r("video","R programming for beginners","freeCodeCamp","A long, free course for beginners.",YT("freeCodeCamp R programming for beginners")),
+      r("practice","swirl","swirl","Learn R inside R itself.","https://swirlstats.com/")
+    ]},
+    {id:"dsa", name:"DSA", intro:"Data structures and algorithms. The core of coding interviews and efficient programs.", items:[
+      r("video","Data structures and algorithms","NeetCode","Clear walkthroughs of common interview problems.","https://www.youtube.com/@NeetCode"),
+      r("video","Algorithms lectures","Abdul Bari","Step-by-step lectures on algorithm ideas.","https://www.youtube.com/@abdul_bari"),
+      r("video","Data structures full course","freeCodeCamp","A long, free course for beginners.",YT("freeCodeCamp data structures and algorithms full course")),
+      r("docs","GeeksforGeeks","GeeksforGeeks","Articles and examples on almost every topic.","https://www.geeksforgeeks.org/"),
+      r("practice","VisuAlgo","VisuAlgo","Animations of sorting, trees and graphs.","https://visualgo.net/"),
+      r("practice","LeetCode","LeetCode","Interview-style coding problems.","https://leetcode.com/")
+    ]},
+    {id:"git", name:"Git", intro:"Save your work, undo mistakes and share code on GitHub.", items:[
+      r("video","Git and GitHub for beginners","freeCodeCamp","A free crash course.",YT("freeCodeCamp Git and GitHub for beginners")),
+      r("docs","Pro Git","git-scm.com","A free book from the basics to advanced use.","https://git-scm.com/book"),
+      r("practice","Learn Git Branching","learngitbranching.js.org","Visual, interactive practice in your browser.","https://learngitbranching.js.org/")
+    ]}
+  ];
+
+  var PRACTICE = [
+    r("","Google Colab","","Run Python notebooks in your browser, with free GPU time within limits.","https://colab.research.google.com/"),
+    r("","Kaggle datasets","","Thousands of free datasets for your first models.","https://www.kaggle.com/datasets"),
+    r("","Kaggle competitions","","Practice on real problems and read other people's notebooks.","https://www.kaggle.com/competitions"),
+    r("","GitHub","","Host your code and projects so others can see them.","https://github.com/"),
+    r("","HackerRank","","Practice in Python, C++, Java and SQL.","https://www.hackerrank.com/"),
+    r("","Exercism","","Free coding exercises in dozens of languages.","https://exercism.org/")
+  ];
+
+  var STEPS = [
+    {id:"python", title:"Learn Python basics", text:"Variables, loops, functions and working with files.", links:[{label:"Open Python resources", tab:"python"}]},
+    {id:"math", title:"Get comfortable with the maths", text:"Vectors and matrices, probability and a little calculus. You need the ideas more than the proofs.", links:[{label:"3Blue1Brown", href:"https://www.youtube.com/@3blue1brown"},{label:"Khan Academy linear algebra", href:"https://www.khanacademy.org/math/linear-algebra"}]},
+    {id:"data", title:"Work with data", text:"NumPy, Pandas and Matplotlib turn raw files into something a model can learn from.", links:[{label:"Kaggle Learn: Pandas", href:"https://www.kaggle.com/learn/pandas"},{label:"Google Colab", href:"https://colab.research.google.com/"}]},
+    {id:"models", title:"Build your first models", text:"Regression, classification, and how to tell whether a model is any good, using scikit-learn.", links:[{label:"Machine Learning Crash Course", href:"https://developers.google.com/machine-learning/crash-course"},{label:"More AI and ML resources", tab:"ai"}]},
+    {id:"deep", title:"Move on to deep learning", text:"Neural networks with PyTorch, then language models and images.", links:[{label:"fast.ai course", href:"https://course.fast.ai/"},{label:"Karpathy: Zero to Hero", href:"https://karpathy.ai/zero-to-hero.html"}]},
+    {id:"share", title:"Build projects and share them", text:"Put two or three projects on GitHub with a short write-up. That is your portfolio.", links:[{label:"Git resources", tab:"git"},{label:"Kaggle competitions", href:"https://www.kaggle.com/competitions"}]}
+  ];
+
+  var TYPE_LABEL = {video:"Video", course:"Course", docs:"Reading", practice:"Practice"};
+  var FILTERS = [["all","All"],["video","Videos"],["read","Courses and reading"],["practice","Practice"]];
+  function matchType(t, f){
+    if (f === "all") return true;
+    if (f === "video") return t === "video";
+    if (f === "read") return t === "course" || t === "docs";
+    return t === "practice";
+  }
+
+  /* ---- Language browser ---- */
+  var state = {lang:"python", type:"all", q:""};
+  var tabsEl = document.getElementById("tabs");
+  var filtersEl = document.getElementById("filters");
+  var listEl = document.getElementById("list");
+  var introEl = document.getElementById("intro");
+  var countEl = document.getElementById("count");
+  var emptyEl = document.getElementById("empty");
+  var qEl = document.getElementById("q");
+
+  LANGS.forEach(function(l){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tab"; b.textContent = l.name; b.dataset.id = l.id;
+    b.addEventListener("click", function(){ state.lang = l.id; state.q = ""; qEl.value = ""; render(); });
+    tabsEl.appendChild(b);
+  });
+  FILTERS.forEach(function(f){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = f[1]; b.dataset.f = f[0];
+    b.addEventListener("click", function(){ state.type = f[0]; render(); });
+    filtersEl.appendChild(b);
+  });
+  qEl.addEventListener("input", function(){ state.q = qEl.value; render(); });
+
+  function makeRow(it, showTags, langName){
+    var li = document.createElement("li"); li.className = "row";
+    var main = document.createElement("div");
+    var h = document.createElement("h3"); h.className = "title";
+    var a = document.createElement("a");
+    a.href = it.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = it.title;
+    var sr = document.createElement("span"); sr.className = "sr-only"; sr.textContent = " (opens in a new tab)";
+    a.appendChild(sr); h.appendChild(a); main.appendChild(h);
+    if (it.by){ var by = document.createElement("p"); by.className = "by"; by.textContent = it.by; main.appendChild(by); }
+    var n = document.createElement("p"); n.className = "note"; n.textContent = it.note; main.appendChild(n);
+    li.appendChild(main);
+    if (showTags){
+      var tags = document.createElement("div"); tags.className = "rtags";
+      var t = document.createElement("span"); t.className = "tag t-" + it.type; t.textContent = TYPE_LABEL[it.type]; tags.appendChild(t);
+      if (langName){ var lt = document.createElement("span"); lt.className = "tag t-lang"; lt.textContent = langName; tags.appendChild(lt); }
+      li.appendChild(tags);
+    } else {
+      li.style.gridTemplateColumns = "1fr";
+    }
+    return li;
+  }
+
+  function render(){
+    var q = state.q.trim().toLowerCase();
+    var searching = q.length > 0;
+    tabsEl.querySelectorAll(".tab").forEach(function(b){
+      b.setAttribute("aria-pressed", String(!searching && b.dataset.id === state.lang));
+    });
+    filtersEl.querySelectorAll(".chip").forEach(function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.f === state.type));
+    });
+    var cur = LANGS.filter(function(l){ return l.id === state.lang; })[0];
+    var pool = [];
+    (searching ? LANGS : [cur]).forEach(function(l){
+      l.items.forEach(function(it){ pool.push({it:it, lang:l.name}); });
+    });
+    var words = q.split(/\s+/).filter(Boolean);
+    var out = pool.filter(function(p){
+      if (!matchType(p.it.type, state.type)) return false;
+      if (!searching) return true;
+      var hay = (p.it.title + " " + p.it.by + " " + p.it.note + " " + p.lang + " " + TYPE_LABEL[p.it.type]).toLowerCase();
+      return words.every(function(w){ return hay.indexOf(w) !== -1; });
+    });
+    introEl.textContent = searching ? "Results from every language and topic." : cur.intro;
+    countEl.textContent = out.length + (out.length === 1 ? " resource" : " resources");
+    listEl.textContent = "";
+    out.forEach(function(p){ listEl.appendChild(makeRow(p.it, true, searching ? p.lang : "")); });
+    emptyEl.hidden = out.length !== 0;
+  }
+
+  function jump(tab){
+    state.lang = tab; state.q = ""; qEl.value = ""; render();
+    document.getElementById("languages").scrollIntoView({behavior: reduce.matches ? "auto" : "smooth"});
+  }
+
+  /* ---- Practice list ---- */
+  var pl = document.getElementById("practiceList");
+  PRACTICE.forEach(function(it){ pl.appendChild(makeRow(it, false, "")); });
+
+  /* ---- Roadmap with saved progress ---- */
+  var KEY = "gradientlab:done";
+  function load(){
+    try {
+      var s = localStorage.getItem(KEY);
+      var a = s ? JSON.parse(s) : [];
+      return Array.isArray(a) ? a.filter(function(id){ return STEPS.some(function(st){ return st.id === id; }); }) : [];
+    } catch(e){ return []; }
+  }
+  function save(a){ try { localStorage.setItem(KEY, JSON.stringify(a)); } catch(e){} }
+  var done = load();
+  var stepsEl = document.getElementById("steps");
+  var fill = document.getElementById("fill");
+  var prog = document.getElementById("prog");
+
+  function paint(){
+    stepsEl.querySelectorAll(".step").forEach(function(li){ li.classList.toggle("done", done.indexOf(li.dataset.id) !== -1); });
+    fill.style.width = (done.length / STEPS.length * 100) + "%";
+    prog.textContent = done.length + " of " + STEPS.length + " steps done";
+  }
+
+  STEPS.forEach(function(s){
+    var li = document.createElement("li"); li.className = "step"; li.dataset.id = s.id;
+    var h = document.createElement("h3"); h.textContent = s.title;
+    var p = document.createElement("p"); p.textContent = s.text;
+    var links = document.createElement("div"); links.className = "links";
+    s.links.forEach(function(l){
+      var el;
+      if (l.tab){
+        el = document.createElement("button"); el.type = "button";
+        el.addEventListener("click", function(){ jump(l.tab); });
+      } else {
+        el = document.createElement("a"); el.href = l.href; el.target = "_blank"; el.rel = "noopener noreferrer";
+      }
+      el.className = "pill"; el.textContent = l.label; links.appendChild(el);
+    });
+    var lab = document.createElement("label"); lab.className = "check";
+    var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = done.indexOf(s.id) !== -1;
+    cb.addEventListener("change", function(){
+      done = cb.checked ? done.filter(function(i){ return i !== s.id; }).concat([s.id]) : done.filter(function(i){ return i !== s.id; });
+      save(done); paint();
+    });
+    lab.appendChild(cb); lab.appendChild(document.createTextNode("I finished this step"));
+    li.appendChild(h); li.appendChild(p); li.appendChild(links); li.appendChild(lab);
+    stepsEl.appendChild(li);
+  });
+
+  /* ---- Theme toggle ---- */
+  var themeBtn = document.getElementById("theme");
+  var darkMq = window.matchMedia("(prefers-color-scheme: dark)");
+  function isDark(){
+    var t = document.documentElement.getAttribute("data-theme");
+    return t ? t === "dark" : darkMq.matches;
+  }
+  function syncTheme(){
+    themeBtn.textContent = isDark() ? "Light mode" : "Dark mode";
+    document.dispatchEvent(new Event("gl-theme"));
+  }
+  themeBtn.addEventListener("click", function(){
+    document.documentElement.setAttribute("data-theme", isDark() ? "light" : "dark");
+    syncTheme();
+  });
+  if (darkMq.addEventListener) darkMq.addEventListener("change", syncTheme);
+  themeBtn.textContent = isDark() ? "Light mode" : "Dark mode";
+
+  render(); paint();
+
+  /* ---- Hero: a ball rolling down a loss curve ---- */
+  var cv = document.getElementById("descent");
+  var readout = document.getElementById("readout");
+  if (cv && cv.getContext){
+    var ctx = cv.getContext("2d");
+    var XMIN = 0, XMAX = 10, pad = 18, W = 0, H = 0, dpr = 1;
+    var f = function(x){ return 0.09*(x-6.4)*(x-6.4) + 0.16*Math.sin(2.1*x) + 1; };
+    var grad = function(x){ var h = 0.001; return (f(x+h) - f(x-h)) / (2*h); };
+    var YMIN = 1e9, YMAX = -1e9, i;
+    for (i = 0; i <= 200; i++){ var yy = f(XMIN + (XMAX-XMIN)*i/200); if (yy < YMIN) YMIN = yy; if (yy > YMAX) YMAX = yy; }
+    var px = function(x){ return pad + (x-XMIN)/(XMAX-XMIN)*(W-2*pad); };
+    var py = function(y){ return H - pad - (y-YMIN)/(YMAX-YMIN)*(H-2*pad-14); };
+    var x, v, steps, trail, rest, pause, tick, startLeft = true, lastText = "";
+
+    function reset(){ x = startLeft ? 0.8 : 9.3; startLeft = !startLeft; v = 0; steps = 0; trail = []; rest = 0; pause = 0; tick = 0; }
+    function stepPhys(){
+      v = 0.9*v - 0.014*grad(x);
+      x = Math.min(XMAX-0.2, Math.max(XMIN+0.2, x+v));
+      steps++;
+      if (steps % 2 === 0) trail.push(x);
+      if (Math.abs(v) < 0.004 && Math.abs(grad(x)) < 0.06) rest++; else rest = 0;
+    }
+    function css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+    function size(){
+      var rect = cv.getBoundingClientRect();
+      W = rect.width; H = rect.height; dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    }
+    function draw(){
+      if (!W) return;
+      var ink = css("--ink"), violet = css("--violet"), coral = css("--coral"), muted = css("--muted");
+      ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var k, xx;
+      ctx.beginPath();
+      for (k = 0; k <= 120; k++){ xx = XMIN + (XMAX-XMIN)*k/120; if (k) ctx.lineTo(px(xx), py(f(xx))); else ctx.moveTo(px(xx), py(f(xx))); }
+      ctx.lineTo(px(XMAX), H-pad+8); ctx.lineTo(px(XMIN), H-pad+8); ctx.closePath();
+      ctx.globalAlpha = 0.1; ctx.fillStyle = violet; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.beginPath();
+      for (k = 0; k <= 120; k++){ xx = XMIN + (XMAX-XMIN)*k/120; if (k) ctx.lineTo(px(xx), py(f(xx))); else ctx.moveTo(px(xx), py(f(xx))); }
+      ctx.lineWidth = 2.5; ctx.lineJoin = "round"; ctx.strokeStyle = ink; ctx.stroke();
+      for (k = 0; k < trail.length; k++){
+        ctx.globalAlpha = 0.25 + 0.75*k/trail.length; ctx.fillStyle = violet;
+        ctx.beginPath(); ctx.arc(px(trail[k]), py(f(trail[k])), 3, 0, 7); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.arc(px(x), py(f(x)) - 8, 8, 0, 7);
+      ctx.fillStyle = coral; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = ink; ctx.stroke();
+      ctx.font = "500 12px Figtree, system-ui, sans-serif"; ctx.fillStyle = muted;
+      ctx.textAlign = "left"; ctx.fillText("loss", pad, 14);
+      ctx.textAlign = "right"; ctx.fillText("model weights", W-pad, H-4);
+      var t = "Step " + steps + ", loss " + (f(x) - YMIN + 0.05).toFixed(2);
+      if (t !== lastText && readout){ readout.textContent = t; lastText = t; }
+    }
+    function frame(){
+      if (pause > 0){ pause--; if (pause === 0) reset(); }
+      else {
+        tick++;
+        if (tick % 2 === 0){ stepPhys(); if (rest > 8 || steps >= 160) pause = 100; }
+      }
+      draw();
+      requestAnimationFrame(frame);
+    }
+    function start(){
+      reset(); size();
+      if (reduce.matches){
+        while (!(rest > 8 || steps >= 160)) stepPhys();
+        draw();
+      } else {
+        requestAnimationFrame(frame);
+      }
+    }
+    if (window.ResizeObserver){
+      new ResizeObserver(function(){ size(); draw(); }).observe(cv.parentElement);
+    } else {
+      window.addEventListener("resize", function(){ size(); draw(); });
+    }
+    document.addEventListener("gl-theme", draw);
+    start();
+  }
+})();
+</script>
+</body>
+</html>
